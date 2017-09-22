@@ -6,7 +6,7 @@ module.exports = {
         // Configure the details of our output file, once
         // the TypeScript compiler has finished transforming
         // our source into plain JavaScript
-        filename: 'script.js',
+        filename: 'dist.js',
 //        path: __dirname + './dist'
     },
     resolve: {
