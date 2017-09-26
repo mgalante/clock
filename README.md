@@ -1,10 +1,36 @@
-# Apuntes clase 22/9
+# Apuntes clase TypeScript
 
 # Visual Studio Code
 `CTRL + SHIFT + P` Buscar comandos
 `CTRL +`` `  ó `CTRL +ñ` Abre la consola`
 
 Trabajamos siempre sobre una carpeta considerando que esa carpeta es el proyecto. Dicha carpeta deberia ser el root del repo de GIT.
+
+# GIT
+Es un software de control de versiones distribuido. Eso signica que vamos a tener una copia del repositorio completo con toda su historia en nuestra máquina y poder trabajar offline de manera efeciente. Además podemos trabajar con múltiples repositorios remotos.
+
+## Configuracion de GIT
+Para accender a repositorios externos al banco hay que configurar el proxy:
+```bash
+git config --global http.proxy http://arbueproxy:80
+```
+
+## Algunos comandos Básicos
+Luego que está seteado el proxy, podemos clonar un repo remoto, por ejemplo:
+```bash
+git clone https://github.com/mgalante/clock.git
+```
+opcionalmente podemos elegir la CARPETA de destino
+
+```bash
+git clone https://github.com/mgalante/clock.git CARPETA
+``` 
+
+Para actualizar nuestro repo local:
+```bash
+git pull
+```
+
 
 # Node JS 
 Node.js® es un entorno de ejecución para JavaScript construido con el motor de JavaScript V8 de Chrome. El ecosistema de paquetes de Node.js, npm, es el ecosistema mas grande de librerías de código abierto en el mundo.
@@ -33,11 +59,14 @@ Crear el package.json original:
 
 Para agregar dependecias:
 
-dependencias del producto en sí: ej. un Widget
-`yarn add --save NOMBRE_DEL_PAQUETE` 
+dependencias del producto en sí: ej. un Widget, jQuery o Angular
+`yarn add NOMBRE_DEL_PAQUETE` 
 
 dependencias para desarrollar: ej. typescript
 `yarn add --dev NOMBRE_DEL_PAQUETE`
+
+Si ya tenemos un package.json o bajamos una actualizacion del repo y queremos instalar las dependencias listadas en el mismo: typescript
+`yarn install` 
 
 
 ## package.json 
@@ -57,6 +86,8 @@ ejecución de un script
 # TypeScript
 Lenguaje de programación y Compilador escrito en TypeScript.
 Como puede ser posible ? https://stackoverflow.com/questions/193560/writing-a-compiler-in-its-own-language
+
+Mas allá de lo explicado en este tutorial, la documentación oficial está muy bien armada, es clara y completa: https://www.typescriptlang.org/
 
 
 ## Instalación
@@ -139,6 +170,7 @@ let x: number|null = 5;
 x = null;
 ```
 
+## Funciones
 ### Tipado básico de funciones
 ```typescript
 function repeatText(x:string, times: number):string{
@@ -149,3 +181,39 @@ function repeatText(x:string, times: number):string{
     return x;
 }
 ```
+
+### Parametros opcionales
+Se puede indicar que un parametro no es requerido con un ?. 
+```typescript
+function getArea(heigth: number, width?: number) : number{
+	//...
+}
+```
+
+### Patametros con valor default:
+```typescript
+function calcularPeso(masa: number, gravedad: number=9.8){
+	return masa * gravedad;
+}
+```
+
+### Sobrecarga de funciones
+
+La idea es que una funcion pueda tener mas de una firma para dar mas claridad al que la consume.
+Sin embargo en runtime solo se tiene en cuenta la firma real (la última) y en el cuerpo de la funcion se debe deducir cual firma quizo utilizar el que la invocó.
+
+```typescript
+function suma(x: number, y:number):number
+function suma(numbers: number[]): number
+function suma(param1: nubmer | number[], param2?: number) : number{
+	if(typeof parm1 === "array"){
+		let numbers = param1 as numbers[];
+		return numbers[0] + numbers[1];
+	}
+
+	let x = param1 as number;
+	let y = param2 as number;
+	return x + y
+}
+```
+
